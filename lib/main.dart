@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import 'config/theme.dart';
 
-
 void main() {
   runApp(const MyApp());
 }
