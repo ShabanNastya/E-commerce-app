@@ -16,19 +16,33 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(title: 'E-commerce App'),
       bottomNavigationBar: CustomNavBar(),
-      body: Container(
-          child: CarouselSlider(
-        options: CarouselOptions(
-          aspectRatio: 1.7,
-          viewportFraction: 0.9,
-          enlargeCenterPage: true,
-          enlargeStrategy: CenterPageEnlargeStrategy.height,
-          autoPlay: true,
-        ),
-        items: Category.categories
-            .map((category) => HeroCarouselCard(category: category))
-            .toList(),
-      )),
+      body: Column(
+        children: [
+          Container(
+              child: CarouselSlider(
+            options: CarouselOptions(
+              aspectRatio: 1.7,
+              viewportFraction: 0.9,
+              enlargeCenterPage: true,
+              enlargeStrategy: CenterPageEnlargeStrategy.height,
+              autoPlay: true,
+            ),
+            items: Category.categories
+                .map((category) => HeroCarouselCard(category: category))
+                .toList(),
+          )),
+          SectionTitle(title: 'RECOMMENDED'),
+          ProductCarousel(
+              products: Product.products
+                  .where((product) => product.isRecommended)
+                  .toList()),
+          SectionTitle(title: 'MOST POPULAR'),
+          ProductCarousel(
+              products: Product.products
+                  .where((product) => product.isPopular)
+                  .toList()),
+        ],
+      ),
     );
   }
 }
