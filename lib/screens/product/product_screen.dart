@@ -1,7 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:e_commerce_app/bloc/wishlist/wishlist_bloc.dart';
 import 'package:e_commerce_app/models/models.dart';
 import 'package:e_commerce_app/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProductScreen extends StatelessWidget {
   static const String routeName = '/product';
@@ -33,14 +35,22 @@ class ProductScreen extends StatelessWidget {
                     Icons.share_outlined,
                     color: Colors.white,
                   )),
-              IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.favorite_border,
-                    color: Colors.white,
-                  )),
+              BlocBuilder<WishlistBloc, WishlistState>(
+                builder: (context, state){
+                return IconButton(
+                    onPressed: () {
+                      context.read<WishlistBloc>().add(WishlistProductAdded(product));
+                      
+                      final snackBar = SnackBar(content: Text('Added to your wishlist'),   backgroundColor: Colors.redAccent,);
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    },
+                    icon: Icon(
+                      Icons.favorite_border,
+                      color: Colors.white,
+                    ));}
+              ),
               ElevatedButton(
-                style: ElevatedButton.styleFrom(primary: Colors.white),
+                  style: ElevatedButton.styleFrom(primary: Colors.white),
                   onPressed: () {},
                   child: Text(
                     'ADD TO CART',
@@ -74,7 +84,7 @@ class ProductScreen extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 height: 60,
                 alignment: Alignment.bottomCenter,
-                color: Colors.black.withAlpha(50),
+                color: Colors.black,
               ),
               Container(
                 margin: const EdgeInsets.all(5.0),
